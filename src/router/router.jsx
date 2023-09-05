@@ -6,12 +6,16 @@ import AdminDashboard from "../dashboard/AdminDashboard/AdminDashboard";
 import DashboardContex from "../contex/DashboardContex";
 import Sellers from "../dashboard/AdminDashboard/Sellers/Sellers";
 import Buyers from "../dashboard/AdminDashboard/Buyers/Buyers";
+import Login from "../pages/Login/Login";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
-    children: [{ path: "/", element: <Home /> }],
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "login", element: <Login /> },
+    ],
   },
   {
     path: "/dashboard",
