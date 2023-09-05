@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 import useDashboardContex from "../../hooks/useDashboardContex";
 
 const AdminDashboard = () => {
-  const { dbTitle } = useDashboardContex();
+  const { dbTitle, setDBTitle } = useDashboardContex();
+  useEffect(() => setDBTitle("Dashboard"), []);
 
   return (
     <div className="AdminDashboard">

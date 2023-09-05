@@ -20,7 +20,7 @@ const logoutButton = (
 
 const adminListItem = (
   <>
-    <NavLink to="/dashboard">
+    <NavLink to="/dashboard/">
       <ListItemButton>
         <ListItemIcon>
           <DashboardIcon />
@@ -28,7 +28,7 @@ const adminListItem = (
         <ListItemText primary="Dashboard" />
       </ListItemButton>
     </NavLink>
-    <NavLink to="#">
+    <NavLink to="sellers">
       <ListItemButton>
         <ListItemIcon>
           <GroupAddIcon />
@@ -36,7 +36,7 @@ const adminListItem = (
         <ListItemText primary="Sellers" />
       </ListItemButton>
     </NavLink>
-    <NavLink to="#">
+    <NavLink to="buyers">
       <ListItemButton>
         <ListItemIcon>
           <GroupIcon />

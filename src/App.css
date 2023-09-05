@@ -7,3 +7,7 @@
 svg {
   max-width: 50px;
 }
+
+nav.MuiList-root .active > div {
+  background: #f5f5f5;
+}
