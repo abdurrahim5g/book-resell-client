@@ -1,0 +1,12 @@
+.buyer-seller-buttons input + span {
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.buyer-seller-buttons input + span:hover {
+  box-shadow: 2px 2px 5px #abadb1;
+}
+.buyer-seller-buttons input:checked + span {
+  background-color: #e0edf9;
+  /* color: #fff; */
+}

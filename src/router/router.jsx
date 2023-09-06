@@ -7,16 +7,16 @@ import DashboardContex from "../contex/DashboardContex";
 import Sellers from "../dashboard/AdminDashboard/Sellers/Sellers";
 import Buyers from "../dashboard/AdminDashboard/Buyers/Buyers";
 import Login from "../pages/Login/Login";
+import Signup from "../pages/Signup/Signup";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
-    children: [
-      { path: "/", element: <Home /> },
-      { path: "login", element: <Login /> },
-    ],
+    children: [{ path: "/", element: <Home /> }],
   },
+  { path: "/login", element: <Login /> },
+  { path: "/signup", element: <Signup /> },
   {
     path: "/dashboard",
     element: (

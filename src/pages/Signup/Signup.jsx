@@ -1,23 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Signup.css";
 import googleIcon from "./google-icon.png";
-import logo from "./logo.png";
+import logo from "../../assets/images/book-resell.svg";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import useAuthContex from "../../hooks/useAuthContex";
 import { toast } from "react-toastify";
 import { GoogleAuthProvider } from "firebase/auth";
-import { insertUserOnDB } from "../../utils/utils";
+import { Button, Divider } from "@mui/material";
 
 const Signup = () => {
   // states
-  const [passError, setPassError] = useState(null);
 
   const { signUp, updateDisplayName, providerSignIn } = useAuthContex();
   // const location = useLocation()
 
   // features get from third party packages
-  const navigate = useNavigate();
+  // const navigate = useNavigation();
+
   const {
     register,
     handleSubmit,
@@ -26,6 +25,7 @@ const Signup = () => {
   } = useForm();
 
   const handleSignUp = (data) => {
+    console.log(data);
     const { name, email, pass, cPass } = data;
     if (pass === cPass) {
       signUp(email, pass)
@@ -34,12 +34,12 @@ const Signup = () => {
           if (user.uid) {
             updateDisplayName(name)
               .then(() => {
-                insertUserOnDB(name, email).then((res) => {
-                  if (res.data.acknowledged) {
-                    toast.success("Your account created successfuly!");
-                    navigate("/dashboard");
-                  }
-                });
+                // insertUserOnDB(name, email).then((res) => {
+                //   if (res.data.acknowledged) {
+                //     toast.success("Your account created successfuly!");
+                //     navigate("/dashboard");
+                //   }
+                // });
               })
               .catch((err) => toast.error(err.code));
           }
@@ -49,7 +49,7 @@ const Signup = () => {
           reset();
         });
     } else {
-      setPassError("Password dosen't match");
+      //
     }
   };
 
@@ -64,12 +64,12 @@ const Signup = () => {
       .then((res) => {
         const user = res.user;
         if (user?.uid) {
-          insertUserOnDB(user.displayName, user.email).then((res) => {
-            if (res.data.acknowledged) {
-              toast.success("Sign in successfuly. 🚀");
-              navigate("/dashboard");
-            }
-          });
+          // insertUserOnDB(user.displayName, user.email).then((res) => {
+          //   if (res.data.acknowledged) {
+          //     toast.success("Sign in successfuly. 🚀");
+          //     navigate("/dashboard");
+          //   }
+          // });
         }
       })
       .catch((err) => {
@@ -81,9 +81,9 @@ const Signup = () => {
     <section className="signup-page py-12">
       <div className="container">
         <div className="row">
-          <div className="site-logo w-[200px] mx-auto mb-8">
+          <div className="site-logo w-[220px] mx-auto mb-8">
             <Link to="/" className="site-logo">
-              <img src={logo} alt="Logo" />
+              <img src={logo} alt="Logo" className="w-full" />
             </Link>
           </div>
 
@@ -93,6 +93,37 @@ const Signup = () => {
                 Create an account
               </h3>
               <form onSubmit={handleSubmit(handleSignUp)}>
+                <div className="single-input mb-6">
+                  <div className="flex gap-6 buyer-seller-buttons">
+                    <label htmlFor="buyer" className="flex-1">
+                      <input
+                        {...register("role")}
+                        value="buyer"
+                        type="radio"
+                        name="role"
+                        id="buyer"
+                        defaultChecked
+                        className="w-0 h-0"
+                      />
+                      <span className="w-full block text-center py-2 rounded text-blue-500 font-semibold border-blue-400 border">
+                        Become a Buyer
+                      </span>
+                    </label>
+                    <label htmlFor="seller" className="flex-1">
+                      <input
+                        {...register("role")}
+                        value="seller"
+                        type="radio"
+                        name="role"
+                        id="seller"
+                        className="w-0 h-0"
+                      />
+                      <span className="w-full block text-center py-2 rounded text-blue-500 font-semibold border-blue-400 border">
+                        Become a Seller
+                      </span>
+                    </label>
+                  </div>
+                </div>
                 <div className="single-input mb-6">
                   <input
                     className="border-0 border-b-[1px] py-2 w-full border-gray-400 outline-none"
@@ -144,48 +175,31 @@ const Signup = () => {
                     {errors?.pass?.message}
                   </p>
                 </div>
-                <div className="single-input mb-6">
-                  <input
-                    className="border-0 border-b-[1px] py-2 w-full border-gray-400 outline-none"
-                    type="password"
-                    name="cPass"
-                    id="cPass"
-                    placeholder="Confirm Password"
-                    {...register("cPass", {
-                      required: "Confirm password is required!",
-                      minLength: {
-                        value: 6,
-                        message: "Confirm Password atlast 6 cherecter or more",
-                      },
-                      maxLength: {
-                        value: 12,
-                        message: "Confirm Password should 6-12 cherecter.",
-                      },
-                    })}
-                  />
-                  <p className="text-sm text-red-500">
-                    {errors?.cPass?.message}
-                    {passError}
-                  </p>
-                </div>
 
                 <div className="single-input mb-6">
-                  <button className="btn btn-primary w-full text-center py-3 text-white rounded-lg hover:shadow-lg transition">
-                    Create an account
-                  </button>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    className="w-full"
+                    size="large"
+                  >
+                    Create an Account
+                  </Button>
                 </div>
               </form>
 
               <p className="mt-4 text-center">
                 Already have an account?{" "}
-                <Link to="/login" className="text-primary">
+                <Link to="/login" className="text-primary text-blue-500">
                   Login
                 </Link>
               </p>
             </div>
 
             <div className=" w-10/12 mx-auto">
-              <div className="divider my-8">OR</div>
+              <div className="my-6">
+                <Divider>OR</Divider>
+              </div>
 
               <div className="google-login">
                 <button
