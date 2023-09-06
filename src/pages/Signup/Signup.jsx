@@ -1,20 +1,28 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Signup.css";
 import logo from "../../assets/images/book-resell.svg";
 import { useForm } from "react-hook-form";
 import useAuthContex from "../../hooks/useAuthContex";
 import { toast } from "react-toastify";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import GoogleSignIn from "../../components/GoogleSignIn/GoogleSignIn";
+import axios from "axios";
+import { useState } from "react";
+
+const updateUserToDatabase = async (userInfo) => {
+  return await axios
+    .post("http://localhost:5000/users", userInfo)
+    .then((res) => res);
+};
 
 const Signup = () => {
   // states
+  const [processing, setProcessing] = useState(false);
 
-  const { signUp, updateDisplayName } = useAuthContex();
-  // const location = useLocation()
+  // Import from AuthContex
+  const { createAccount, updateDisplayName } = useAuthContex();
 
-  // features get from third party packages
-  // const navigate = useNavigation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -23,37 +31,46 @@ const Signup = () => {
     reset,
   } = useForm();
 
-  const handleSignUp = (data) => {
-    console.log(data);
-    const { name, email, pass, cPass } = data;
-    if (pass === cPass) {
-      signUp(email, pass)
-        .then((result) => {
-          const user = result.user;
-          if (user.uid) {
-            updateDisplayName(name)
-              .then(() => {
-                // insertUserOnDB(name, email).then((res) => {
-                //   if (res.data.acknowledged) {
-                //     toast.success("Your account created successfuly!");
-                //     navigate("/dashboard");
-                //   }
-                // });
-              })
-              .catch((err) => toast.error(err.code));
-          }
-        })
-        .catch((err) => {
-          toast.error(err.code);
-          reset();
-        });
-    } else {
-      //
-    }
+  const handleSignUp = async (data) => {
+    setProcessing(true);
+    // console.log(data);
+    const { name, email, pass, role } = data;
+
+    createAccount(email, pass)
+      .then((result) => {
+        const user = result.user;
+        // console.log(user);
+        if (user.uid) {
+          updateDisplayName(name)
+            .then(() => {
+              // console.log("displayName Updated");
+              updateUserToDatabase({ name, email, role }).then((res) => {
+                if (res.status === 200 && res.data.acknowledged) {
+                  // console.log("User saved to the database");
+                  toast.success("Accout created sucessfully 🚀");
+                  setProcessing(false);
+                  navigate("/dashboard");
+                } else {
+                  toast.error("Something is wrong ⚠");
+                }
+              });
+            })
+            .catch((err) => {
+              toast.error(err.code);
+              reset();
+              setProcessing(false);
+            });
+        }
+      })
+      .catch((err) => {
+        toast.error(err.code);
+        reset();
+        setProcessing(false);
+      });
   };
 
   return (
-    <section className="signup-page py-12">
+    <section className="signup-page py-12 px-3">
       <div className="container">
         <div className="row">
           <div className="site-logo w-[220px] mx-auto mb-8">
@@ -157,8 +174,13 @@ const Signup = () => {
                     type="submit"
                     className="w-full"
                     size="large"
+                    disabled={processing}
                   >
-                    Create an Account
+                    {!processing ? (
+                      "Create an account"
+                    ) : (
+                      <CircularProgress color="inherit" size={30} />
+                    )}
                   </Button>
                 </div>
               </form>
