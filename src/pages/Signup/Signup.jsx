@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
 import "./Signup.css";
-import googleIcon from "./google-icon.png";
 import logo from "../../assets/images/book-resell.svg";
 import { useForm } from "react-hook-form";
 import useAuthContex from "../../hooks/useAuthContex";
 import { toast } from "react-toastify";
-import { GoogleAuthProvider } from "firebase/auth";
-import { Button, Divider } from "@mui/material";
+import { Button } from "@mui/material";
+import GoogleSignIn from "../../components/GoogleSignIn/GoogleSignIn";
 
 const Signup = () => {
   // states
 
-  const { signUp, updateDisplayName, providerSignIn } = useAuthContex();
+  const { signUp, updateDisplayName } = useAuthContex();
   // const location = useLocation()
 
   // features get from third party packages
@@ -51,30 +50,6 @@ const Signup = () => {
     } else {
       //
     }
-  };
-
-  /**
-   *
-   *
-   * Handle providerSignIn
-   */
-  const googleProvider = new GoogleAuthProvider();
-  const handleProviderSignIn = (provider) => {
-    providerSignIn(provider)
-      .then((res) => {
-        const user = res.user;
-        if (user?.uid) {
-          // insertUserOnDB(user.displayName, user.email).then((res) => {
-          //   if (res.data.acknowledged) {
-          //     toast.success("Sign in successfuly. 🚀");
-          //     navigate("/dashboard");
-          //   }
-          // });
-        }
-      })
-      .catch((err) => {
-        toast.error(err.code);
-      });
   };
 
   return (
@@ -196,23 +171,7 @@ const Signup = () => {
               </p>
             </div>
 
-            <div className=" w-10/12 mx-auto">
-              <div className="my-6">
-                <Divider>OR</Divider>
-              </div>
-
-              <div className="google-login">
-                <button
-                  className="flex w-full items-center border rounded-full p-2"
-                  onClick={() => handleProviderSignIn(googleProvider)}
-                >
-                  <img src={googleIcon} alt="Google Icon" />
-                  <span className="flex-grow  text-center">
-                    Continue with Google
-                  </span>
-                </button>
-              </div>
-            </div>
+            <GoogleSignIn />
           </div>
         </div>
       </div>
