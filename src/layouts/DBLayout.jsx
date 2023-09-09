@@ -16,9 +16,11 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { adminListItem, sellerListItem } from "./listItems";
 import { useState } from "react";
 import logo from "../assets/images/book-resell.svg";
-import { Link, Outlet } from "react-router-dom";
-import { Avatar, Menu, MenuItem, Tooltip } from "@mui/material";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Avatar, Button, Menu, MenuItem, Tooltip } from "@mui/material";
 import useDashboardContex from "../hooks/useDashboardContex";
+import useAuthContex from "../hooks/useAuthContex";
+import { toast } from "react-toastify";
 
 function Copyright(props) {
   return (
@@ -88,12 +90,15 @@ const Drawer = styled(MuiDrawer, {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Logout"];
 
 export default function DBLayout() {
   const [open, setOpen] = useState(true);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { dbTitle } = useDashboardContex();
+  const { logOut, user } = useAuthContex();
+
+  const navigate = useNavigate();
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -105,6 +110,15 @@ export default function DBLayout() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logout Successfuly 🚀");
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -146,9 +160,9 @@ export default function DBLayout() {
             </IconButton>
 
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+              <Tooltip title={user?.displayName} style={{ marginLeft: "20px" }}>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Remy Sharp" src={user?.photoURL} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -169,7 +183,9 @@ export default function DBLayout() {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                    <Button onClick={handleLogout}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </Button>
                   </MenuItem>
                 ))}
               </Menu>

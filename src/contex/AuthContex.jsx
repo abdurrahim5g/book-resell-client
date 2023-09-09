@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
   updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
@@ -37,6 +38,12 @@ const AuthContexProvider = ({ children }) => {
 
   const providerSignIn = (provider) => signInWithPopup(auth, provider);
 
+  /**
+   *
+   * Added @logout functionality
+   */
+  const logOut = () => signOut(auth);
+
   useEffect(() => {
     const unsubscribe = () =>
       onAuthStateChanged(auth, (currentUser) => {
@@ -58,6 +65,7 @@ const AuthContexProvider = ({ children }) => {
     updateDisplayName,
     signIn,
     providerSignIn,
+    logOut,
   };
 
   return <AuthContex.Provider value={authInfo}>{children}</AuthContex.Provider>;
