@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
+import axios from "axios";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -20,6 +21,7 @@ const AuthContexProvider = ({ children }) => {
    */
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState(null);
 
   // Firebase Auth
   const auth = getAuth(app);
@@ -49,11 +51,21 @@ const AuthContexProvider = ({ children }) => {
       onAuthStateChanged(auth, (currentUser) => {
         if (currentUser) {
           // console.log(currentUser.uid);
-          setUser(currentUser);
-          setLoading(false);
+          axios
+            .get(
+              `http://localhost:5000/users/single-user?email=${currentUser.email}`
+            )
+            .then((res) => {
+              const role = res.data?.role;
+              setUserRole(role);
+              setUser(currentUser);
+              setLoading(false);
+              console.log(res);
+            });
         } else {
           console.log("User isn't sign in");
           setLoading(false);
+          setUserRole(null);
         }
       });
     return unsubscribe;
@@ -62,6 +74,7 @@ const AuthContexProvider = ({ children }) => {
   const authInfo = {
     user,
     loading,
+    userRole,
     createAccount,
     updateDisplayName,
     signIn,

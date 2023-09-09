@@ -8,7 +8,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="AdminDashboard">
-      <h3>{dbTitle}</h3>
+      <h3>Admin {dbTitle}</h3>
     </div>
   );
 };
