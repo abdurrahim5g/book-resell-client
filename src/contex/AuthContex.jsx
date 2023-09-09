@@ -53,6 +53,7 @@ const AuthContexProvider = ({ children }) => {
           setLoading(false);
         } else {
           console.log("User isn't sign in");
+          setLoading(false);
         }
       });
     return unsubscribe;

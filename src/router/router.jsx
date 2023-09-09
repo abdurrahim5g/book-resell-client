@@ -8,6 +8,7 @@ import Sellers from "../dashboard/AdminDashboard/Sellers/Sellers";
 import Buyers from "../dashboard/AdminDashboard/Buyers/Buyers";
 import Login from "../pages/Login/Login";
 import Signup from "../pages/Signup/Signup";
+import DashboardRoute from "./DashboardRoute";
 
 const router = createBrowserRouter([
   {
@@ -20,9 +21,11 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <DashboardContex>
-        <DBLayout />
-      </DashboardContex>
+      <DashboardRoute>
+        <DashboardContex>
+          <DBLayout />
+        </DashboardContex>
+      </DashboardRoute>
     ),
     children: [
       {
