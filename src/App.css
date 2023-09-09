@@ -11,3 +11,7 @@ svg {
 nav.MuiList-root .active > div {
   background: #f5f5f5;
 }
+
+.container {
+  margin: 0 auto;
+}
