@@ -3,6 +3,8 @@ import googleIcon from "./google-icon.png";
 import { GoogleAuthProvider } from "firebase/auth";
 import useAuthContex from "../../hooks/useAuthContex";
 import { toast } from "react-toastify";
+import { updateUserToDatabase } from "../../utility/utility";
+import { useNavigate } from "react-router-dom";
 
 /**
  *
@@ -13,17 +15,28 @@ const googleProvider = new GoogleAuthProvider();
 
 const GoogleSignIn = () => {
   const { providerSignIn } = useAuthContex();
+  const navigate = useNavigate();
+
   const handleProviderSignIn = (provider) => {
     providerSignIn(provider)
       .then((res) => {
         const user = res.user;
         if (user?.uid) {
-          // insertUserOnDB(user.displayName, user.email).then((res) => {
-          //   if (res.data.acknowledged) {
-          //     toast.success("Sign in successfuly. 🚀");
-          //     navigate("/dashboard");
-          //   }
-          // });
+          const userDoc = {
+            name: user?.displayName,
+            email: user?.email,
+            role: "buyer",
+          };
+          updateUserToDatabase(userDoc)
+            .then((res) => {
+              const data = res.data;
+              console.log(res);
+              if (data.acknowledged) {
+                toast.success("Login successfuly 🚀");
+                navigate("/dashboard/");
+              }
+            })
+            .catch((err) => console.log(err));
         }
       })
       .catch((err) => {

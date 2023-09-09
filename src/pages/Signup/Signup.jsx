@@ -6,14 +6,9 @@ import useAuthContex from "../../hooks/useAuthContex";
 import { toast } from "react-toastify";
 import { Button, CircularProgress } from "@mui/material";
 import GoogleSignIn from "../../components/GoogleSignIn/GoogleSignIn";
-import axios from "axios";
-import { useState } from "react";
 
-const updateUserToDatabase = async (userInfo) => {
-  return await axios
-    .post("http://localhost:5000/users", userInfo)
-    .then((res) => res);
-};
+import { useState } from "react";
+import { updateUserToDatabase } from "../../utility/utility";
 
 const Signup = () => {
   // states
