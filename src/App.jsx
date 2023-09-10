@@ -4,11 +4,16 @@ import router from "./router/router";
 import AuthContexProvider from "./contex/AuthContex";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <AuthContexProvider>
-      <RouterProvider router={router}></RouterProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router}></RouterProvider>
+      </QueryClientProvider>
       <ToastContainer theme="colored" position="bottom-right" />
     </AuthContexProvider>
   );
