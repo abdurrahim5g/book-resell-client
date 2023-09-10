@@ -116,7 +116,7 @@ export default function DBLayout() {
     logOut()
       .then(() => {
         toast.success("Logout Successfuly 🚀");
-        navigate("/");
+        navigate("/login");
       })
       .catch((err) => console.log(err));
   };
