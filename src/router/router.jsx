@@ -10,6 +10,7 @@ import Signup from "../pages/Signup/Signup";
 import DashboardRoute from "./DashboardRoute";
 import Dashboard from "../dashboard/Dashboard/Dashboard";
 import AdminRoute from "./AdminRoute";
+import Catagory from "../dashboard/AdminDashboard/Catagory/Catagory";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <Buyers />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "catagory",
+        element: (
+          <AdminRoute>
+            <Catagory />
           </AdminRoute>
         ),
       },

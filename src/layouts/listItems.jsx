@@ -5,29 +5,22 @@ import { NavLink } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import GroupIcon from "@mui/icons-material/Group";
-import LogoutIcon from "@mui/icons-material/Logout";
+import SchemaIcon from "@mui/icons-material/Schema";
 
-const logoutButton = (
-  <button className="w-full">
+const dashboardLink = (
+  <NavLink to="/dashboard/">
     <ListItemButton>
       <ListItemIcon>
-        <LogoutIcon />
+        <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Logout" />
+      <ListItemText primary="Dashboard" />
     </ListItemButton>
-  </button>
+  </NavLink>
 );
 
 const adminListItem = (
   <>
-    <NavLink to="/dashboard/">
-      <ListItemButton>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItemButton>
-    </NavLink>
+    {dashboardLink}
     <NavLink to="sellers">
       <ListItemButton>
         <ListItemIcon>
@@ -44,20 +37,20 @@ const adminListItem = (
         <ListItemText primary="Buyers" />
       </ListItemButton>
     </NavLink>
-    {logoutButton}
+    <NavLink to="catagory">
+      <ListItemButton>
+        <ListItemIcon>
+          <SchemaIcon />
+        </ListItemIcon>
+        <ListItemText primary="Catagory" />
+      </ListItemButton>
+    </NavLink>
   </>
 );
 
 const sellerListItem = (
   <>
-    <NavLink to="/dashboard">
-      <ListItemButton>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItemButton>
-    </NavLink>
+    {dashboardLink}
     <NavLink to="#">
       <ListItemButton>
         <ListItemIcon>
@@ -82,7 +75,6 @@ const sellerListItem = (
         <ListItemText primary="Orders" />
       </ListItemButton>
     </NavLink>
-    {logoutButton}
   </>
 );
 
