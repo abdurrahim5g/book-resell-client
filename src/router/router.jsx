@@ -9,6 +9,7 @@ import Login from "../pages/Login/Login";
 import Signup from "../pages/Signup/Signup";
 import DashboardRoute from "./DashboardRoute";
 import Dashboard from "../dashboard/Dashboard/Dashboard";
+import AdminRoute from "./AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -34,11 +35,19 @@ const router = createBrowserRouter([
       },
       {
         path: "sellers",
-        element: <Sellers />,
+        element: (
+          <AdminRoute>
+            <Sellers />
+          </AdminRoute>
+        ),
       },
       {
         path: "buyers",
-        element: <Buyers />,
+        element: (
+          <AdminRoute>
+            <Buyers />
+          </AdminRoute>
+        ),
       },
     ],
   },

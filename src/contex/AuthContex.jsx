@@ -60,7 +60,7 @@ const AuthContexProvider = ({ children }) => {
               setUserRole(role);
               setUser(currentUser);
               setLoading(false);
-              console.log(res);
+              // console.log(res);
             });
         } else {
           console.log("User isn't sign in");
@@ -69,7 +69,7 @@ const AuthContexProvider = ({ children }) => {
         }
       });
     return unsubscribe;
-  }, []);
+  }, [auth]);
 
   const authInfo = {
     user,

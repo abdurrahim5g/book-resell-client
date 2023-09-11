@@ -48,7 +48,7 @@ const Buyers = () => {
 
   if (isLoading) return <Loading />;
   if (error) return "Error";
-  console.log(buyers);
+  // console.log(buyers);
 
   return (
     <div className="Buyers">
