@@ -21,6 +21,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useQuery } from "react-query";
+import Loading from "../../../components/Loading/Loading";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -62,12 +64,25 @@ const Catagory = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
+  // ReactHookForm
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors },
   } = useForm();
+
+  /**
+   *
+   * Load Catagory data
+   */
+  const {
+    data: catagory = [],
+    isError,
+    isLoading,
+  } = useQuery("catagory", () => {
+    return axios("http://localhost:5000/catagory").then((res) => res.data);
+  });
 
   // string to slug
   const slugify = (str) =>
@@ -96,6 +111,9 @@ const Catagory = () => {
     reset();
   };
 
+  if (isLoading) return <Loading />;
+  if (isError) return "Error..";
+
   return (
     <div className="catagory">
       <TableContainer component={Paper}>
@@ -104,23 +122,20 @@ const Catagory = () => {
             <TableRow>
               <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell>Description</StyledTableCell>
-              <StyledTableCell align="right">Slug</StyledTableCell>
+              <StyledTableCell>Slug</StyledTableCell>
               <StyledTableCell align="right">Count</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            <StyledTableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell>Description</StyledTableCell>
-              <StyledTableCell align="right">Slug</StyledTableCell>
-              <StyledTableCell align="right">09</StyledTableCell>
-            </StyledTableRow>
-            <StyledTableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell>Description</StyledTableCell>
-              <StyledTableCell align="right">Slug</StyledTableCell>
-              <StyledTableCell align="right">09</StyledTableCell>
-            </StyledTableRow>
+            {!isLoading &&
+              catagory?.map((single) => (
+                <StyledTableRow key={single._id}>
+                  <StyledTableCell>{single.name}</StyledTableCell>
+                  <StyledTableCell>{single.description}</StyledTableCell>
+                  <StyledTableCell>{single.slug}</StyledTableCell>
+                  <StyledTableCell align="right">09</StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
