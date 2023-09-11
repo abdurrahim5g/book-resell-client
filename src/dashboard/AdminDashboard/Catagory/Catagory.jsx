@@ -133,7 +133,7 @@ const Catagory = () => {
                   <StyledTableCell>{single.name}</StyledTableCell>
                   <StyledTableCell>{single.description}</StyledTableCell>
                   <StyledTableCell>{single.slug}</StyledTableCell>
-                  <StyledTableCell align="right">09</StyledTableCell>
+                  <StyledTableCell align="right">0X</StyledTableCell>
                 </StyledTableRow>
               ))}
           </TableBody>
