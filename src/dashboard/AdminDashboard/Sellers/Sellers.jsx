@@ -43,7 +43,7 @@ const Sellers = () => {
     error,
     isLoading,
   } = useQuery("sellers", () => {
-    return axios(`http://localhost:5000/users?role=buyer`).then((res) => res);
+    return axios(`http://localhost:5000/users?role=seller`).then((res) => res);
   });
 
   if (isLoading) return <Loading />;

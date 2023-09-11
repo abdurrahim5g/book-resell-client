@@ -9,7 +9,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
+import Loading from "../../../components/Loading/Loading";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,21 +34,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 const Buyers = () => {
   const { setDBTitle } = useDashboardContex();
   useEffect(() => setDBTitle("Buyers"), []);
+
+  const {
+    data: buyers = [],
+    error,
+    isLoading,
+  } = useQuery("buyers", () => {
+    return axios(`http://localhost:5000/users?role=buyer`).then((res) => res);
+  });
+
+  if (isLoading) return <Loading />;
+  if (error) return "Error";
+  console.log(buyers);
+
   return (
     <div className="Buyers">
       <TableContainer component={Paper}>
@@ -61,21 +65,28 @@ const Buyers = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button>Edit</Button>
-                  <Button color="error">Delete</Button>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {!isLoading &&
+              buyers?.data?.map((buyer) => (
+                <StyledTableRow key={buyer._id}>
+                  <StyledTableCell component="th" scope="seller">
+                    {buyer.picturURL || (
+                      <Avatar sx={{}}>{buyer.name[0]}</Avatar>
+                    )}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{buyer.name}</StyledTableCell>
+                  <StyledTableCell align="right">{buyer.email}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {buyer.phone || "xxx"}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {buyer.location || "🗺"}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <Button>Edit</Button>
+                    <Button color="error">Delete</Button>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
