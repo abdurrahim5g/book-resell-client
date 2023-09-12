@@ -116,6 +116,14 @@ const Catagory = () => {
 
   return (
     <div className="catagory">
+      <div className="add-catagory flex justify-between items-center mb-4">
+        <Typography component={"h2"} style={{ fontSize: 20, fontWeight: 500 }}>
+          Add Catagory
+        </Typography>
+        <Button variant="outlined" onClick={handleOpen}>
+          Add Catagory
+        </Button>
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -141,9 +149,6 @@ const Catagory = () => {
       </TableContainer>
 
       <div style={{ marginTop: "20px" }}>
-        <Button variant="outlined" onClick={handleOpen}>
-          Add Catagory
-        </Button>
         <Modal
           aria-labelledby="spring-modal-title"
           aria-describedby="spring-modal-description"
