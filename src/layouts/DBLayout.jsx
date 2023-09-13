@@ -13,7 +13,7 @@ import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { adminListItem, sellerListItem } from "./listItems";
+import { adminLink, sellerLink, buyerLink } from "./listItems";
 import { useState } from "react";
 import logo from "../assets/images/book-resell.svg";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -96,7 +96,7 @@ export default function DBLayout() {
   const [open, setOpen] = useState(true);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { dbTitle } = useDashboardContex();
-  const { logOut, user } = useAuthContex();
+  const { logOut, user, userRole } = useAuthContex();
 
   const navigate = useNavigate();
 
@@ -208,9 +208,9 @@ export default function DBLayout() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {adminListItem}
-            <Divider sx={{ my: 1 }} />
-            {!sellerListItem}
+            {userRole === "admin" && adminLink}
+            {userRole === "seller" && sellerLink}
+            {userRole === "buyer" && buyerLink}
             <Divider sx={{ my: 1 }} />
           </List>
         </Drawer>

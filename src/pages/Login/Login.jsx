@@ -18,7 +18,7 @@ const Login = () => {
    * Navigate user
    */
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/dashboard";
   const navigate = useNavigate();
 
   /**

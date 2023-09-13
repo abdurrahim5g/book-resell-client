@@ -1,81 +1,35 @@
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import { NavLink } from "react-router-dom";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import GroupIcon from "@mui/icons-material/Group";
-import SchemaIcon from "@mui/icons-material/Schema";
+// import { Dashboard, Schema, GroupAdd, Group } from "@mui/icons-material";
+import LinkItem from "../components/LinkItem/LinkItem";
 
 const dashboardLink = (
-  <NavLink to="/dashboard/">
-    <ListItemButton>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItemButton>
-  </NavLink>
+  <LinkItem to="/dashboard/" text="Dashlboard" icon="Dashboard" />
 );
 
-const adminListItem = (
+const adminLink = (
   <>
     {dashboardLink}
-    <NavLink to="sellers">
-      <ListItemButton>
-        <ListItemIcon>
-          <GroupAddIcon />
-        </ListItemIcon>
-        <ListItemText primary="Sellers" />
-      </ListItemButton>
-    </NavLink>
-    <NavLink to="buyers">
-      <ListItemButton>
-        <ListItemIcon>
-          <GroupIcon />
-        </ListItemIcon>
-        <ListItemText primary="Buyers" />
-      </ListItemButton>
-    </NavLink>
-    <NavLink to="catagory">
-      <ListItemButton>
-        <ListItemIcon>
-          <SchemaIcon />
-        </ListItemIcon>
-        <ListItemText primary="Catagory" />
-      </ListItemButton>
-    </NavLink>
+    <LinkItem to="sellers" text="Sellers" icon="GroupAdd" />
+    <LinkItem to="buyers" text="Buyers" icon="Group" />
+    <LinkItem to="catagory" text="Catagory" icon="Schema" />
   </>
 );
 
-const sellerListItem = (
+const sellerLink = (
   <>
     {dashboardLink}
-    <NavLink to="#">
-      <ListItemButton>
-        <ListItemIcon>
-          <GroupAddIcon />
-        </ListItemIcon>
-        <ListItemText primary="Products" />
-      </ListItemButton>
-    </NavLink>
-    <NavLink to="#">
-      <ListItemButton>
-        <ListItemIcon>
-          <GroupIcon />
-        </ListItemIcon>
-        <ListItemText primary="Users" />
-      </ListItemButton>
-    </NavLink>
-    <NavLink to="#">
-      <ListItemButton>
-        <ListItemIcon>
-          <GroupIcon />
-        </ListItemIcon>
-        <ListItemText primary="Orders" />
-      </ListItemButton>
-    </NavLink>
+    <LinkItem
+      to="products"
+      text="Products"
+      icon="ProductionQuantityLimitsTwoTone"
+    />
   </>
 );
 
-export { adminListItem, sellerListItem };
+const buyerLink = (
+  <>
+    {dashboardLink}
+    <LinkItem to="orders" text="Orders" icon="ViewList" />
+  </>
+);
+
+export { adminLink, sellerLink, buyerLink };
