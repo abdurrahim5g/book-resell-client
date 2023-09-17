@@ -101,7 +101,9 @@ const Products = () => {
     isLoading,
     refetch,
   } = useQuery("products", () => {
-    return axios("http://localhost:5000/product").then((res) => res.data);
+    return axios(`http://localhost:5000/product?author=${user?.email}`).then(
+      (res) => res.data
+    );
   });
 
   const handleAddProduct = (data) => {
