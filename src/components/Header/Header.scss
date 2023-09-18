@@ -1,0 +1,22 @@
+.search-bar {
+  // background-color: red;
+  position: relative;
+  input {
+    width: 100%;
+    padding: 10px 45px 10px 15px;
+    outline: none;
+    border: none;
+  }
+  button {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    text-align: center;
+    background: #111;
+    height: 100%;
+    color: #fff;
+    border: 1px solid #111;
+  }
+}
