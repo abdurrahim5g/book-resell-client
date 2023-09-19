@@ -1,0 +1,21 @@
+.awssld__controls button span::before,
+.awssld__controls button span::after {
+  background: #fff;
+}
+
+.single-banner_image {
+  height: 500px;
+  width: 100%;
+}
+.single-banner_image img {
+  height: 500px;
+  width: 100%;
+  object-fit: cover;
+}
+.awssld__box,
+.awssld__wrapper {
+  height: 500px !important;
+}
+.awssld__content {
+  background: transparent !important;
+}

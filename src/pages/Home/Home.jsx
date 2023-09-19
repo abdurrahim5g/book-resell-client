@@ -1,5 +1,7 @@
+import CatagorySlider from "../../components/CatagorySlider/CatagorySlider";
+
 const Home = () => {
-  return <h2>home page</h2>;
+  return <CatagorySlider />;
 };
 
 export default Home;
