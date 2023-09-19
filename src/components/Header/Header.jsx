@@ -41,7 +41,9 @@ const Header = () => {
               <IconButton color="primary" aria-label="add to shopping cart">
                 <AddShoppingCart />
               </IconButton>
-              <Button variant="contained">Login</Button>
+              <Link to="/login">
+                <Button variant="contained">Login</Button>
+              </Link>
             </div>
           </Grid>
         </Grid>
