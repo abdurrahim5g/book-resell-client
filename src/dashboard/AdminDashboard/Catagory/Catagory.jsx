@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Fade,
+  IconButton,
   Modal,
   Paper,
   Table,
@@ -23,6 +24,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 import Loading from "../../../components/Loading/Loading";
+import { DeleteOutline, EditNote } from "@mui/icons-material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -131,7 +133,8 @@ const Catagory = () => {
               <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell>Description</StyledTableCell>
               <StyledTableCell>Slug</StyledTableCell>
-              <StyledTableCell align="right">Count</StyledTableCell>
+              <StyledTableCell align="center">Count</StyledTableCell>
+              <StyledTableCell align="center">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -141,7 +144,17 @@ const Catagory = () => {
                   <StyledTableCell>{single.name}</StyledTableCell>
                   <StyledTableCell>{single.description}</StyledTableCell>
                   <StyledTableCell>{single.slug}</StyledTableCell>
-                  <StyledTableCell align="right">0X</StyledTableCell>
+                  <StyledTableCell align="center">0X</StyledTableCell>
+                  <StyledTableCell align="center">
+                    <div className="flex gap-3 justify-center">
+                      <IconButton color="error">
+                        <DeleteOutline />
+                      </IconButton>
+                      <IconButton color="error">
+                        <EditNote />
+                      </IconButton>
+                    </div>
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
           </TableBody>
