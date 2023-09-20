@@ -95,22 +95,46 @@ const Catagory = () => {
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
 
+  // imageBB_API
+  const imagebbAPI = import.meta.env.VITE_ImageBB_API;
+
   const handleAddCatagory = (data) => {
-    const { name, description, icon } = data;
-    const catagoryObj = { name, description, slug: slugify(name), icon };
-    console.log(catagoryObj);
+    // const { name, description, icon } = data;
+    // const catagoryObj = { name, description, slug: slugify(name), icon };
+    // console.log(catagoryObj);
 
-    // axios
-    //   .post("http://localhost:5000/catagory", catagoryObj)
-    //   .then((res) => {
-    //     const data = res.data;
-    //     if (data?.acknowledged) {
-    //       toast.success(`${name} catagory added successfuly!`);
-    //     }
-    //   })
-    //   .catch(console.dir);
+    let iconData = data.icon[0];
+    const formData = new FormData();
+    formData.append("image", iconData);
+    console.log(data, "Form Data", formData);
 
-    // reset();
+    axios
+      .post(`https://api.imgbb.com/1/upload?key=${imagebbAPI}`, formData)
+      .then((res) => {
+        const iconRes = res.data;
+        console.log(iconRes);
+        if (iconRes.success) {
+          const { name, description } = data;
+          const catagoryObj = {
+            name,
+            description,
+            slug: slugify(name),
+            icon: iconRes?.data?.url,
+          };
+
+          axios
+            .post("http://localhost:5000/catagory", catagoryObj)
+            .then((res) => {
+              const data = res.data;
+              if (data?.acknowledged) {
+                toast.success(`${name} catagory added successfuly!`);
+              }
+            })
+            .catch(console.dir);
+          reset();
+        }
+      })
+      .catch(console.dir);
   };
 
   if (isLoading) return <Loading />;
