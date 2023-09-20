@@ -1,9 +1,10 @@
-import { Button, Grid, IconButton } from "@mui/material";
+import { Avatar, Button, Grid, IconButton } from "@mui/material";
 import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/book-resell.svg";
 import { AddShoppingCart, SearchSharp } from "@mui/icons-material";
 import "./Header.scss";
+import useAuthContex from "../../hooks/useAuthContex";
 
 const SearchBar = () => (
   <form id="searchBook">
@@ -17,6 +18,8 @@ const SearchBar = () => (
 );
 
 const Header = () => {
+  const { user } = useAuthContex();
+
   return (
     <header className="header-area py-4 shadow">
       <Container maxWidth="lg">
@@ -41,9 +44,23 @@ const Header = () => {
               <IconButton color="primary" aria-label="add to shopping cart">
                 <AddShoppingCart />
               </IconButton>
-              <Link to="/login">
-                <Button variant="contained">Login</Button>
-              </Link>
+
+              {!user && (
+                <Link to="/login">
+                  <Button variant="contained">Login</Button>
+                </Link>
+              )}
+              {user && (
+                <Link to="/dashboard">
+                  <Button variant="contained">
+                    My Account
+                    <Avatar
+                      sx={{ width: 30, height: 30, marginLeft: 2 }}
+                      src={user?.photoURL}
+                    />{" "}
+                  </Button>
+                </Link>
+              )}
             </div>
           </Grid>
         </Grid>

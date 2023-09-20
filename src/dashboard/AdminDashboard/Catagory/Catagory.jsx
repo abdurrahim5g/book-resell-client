@@ -96,21 +96,21 @@ const Catagory = () => {
       .replace(/^-+|-+$/g, "");
 
   const handleAddCatagory = (data) => {
-    const { name, description } = data;
-    const catagoryObj = { name, description, slug: slugify(name) };
-    // console.log(catagoryObj);
+    const { name, description, icon } = data;
+    const catagoryObj = { name, description, slug: slugify(name), icon };
+    console.log(catagoryObj);
 
-    axios
-      .post("http://localhost:5000/catagory", catagoryObj)
-      .then((res) => {
-        const data = res.data;
-        if (data?.acknowledged) {
-          toast.success(`${name} catagory added successfuly!`);
-        }
-      })
-      .catch(console.dir);
+    // axios
+    //   .post("http://localhost:5000/catagory", catagoryObj)
+    //   .then((res) => {
+    //     const data = res.data;
+    //     if (data?.acknowledged) {
+    //       toast.success(`${name} catagory added successfuly!`);
+    //     }
+    //   })
+    //   .catch(console.dir);
 
-    reset();
+    // reset();
   };
 
   if (isLoading) return <Loading />;
@@ -150,7 +150,7 @@ const Catagory = () => {
                       <IconButton color="error">
                         <DeleteOutline />
                       </IconButton>
-                      <IconButton color="error">
+                      <IconButton color="info">
                         <EditNote />
                       </IconButton>
                     </div>
@@ -161,7 +161,7 @@ const Catagory = () => {
         </Table>
       </TableContainer>
 
-      <div style={{ marginTop: "20px" }}>
+      <div className="catagory-modal" style={{ marginTop: "20px" }}>
         <Modal
           aria-labelledby="spring-modal-title"
           aria-describedby="spring-modal-description"
@@ -185,6 +185,7 @@ const Catagory = () => {
                 <form
                   className="grid gap-6"
                   onSubmit={handleSubmit(handleAddCatagory)}
+                  encType="multipart/form-data"
                 >
                   <TextField
                     {...register("name", { required: "Title is require" })}
@@ -205,6 +206,16 @@ const Catagory = () => {
                     minRows={3}
                     error={errors?.description ? true : false}
                   />
+
+                  <TextField
+                    {...register("icon", {
+                      required: "icon is require",
+                    })}
+                    type="file"
+                    error={errors?.icon ? true : false}
+                    id="icon"
+                  />
+
                   <Button variant="contained" size="large" type="submit">
                     Add Catagory
                   </Button>

@@ -64,8 +64,9 @@ const AuthContexProvider = ({ children }) => {
             });
         } else {
           console.log("User isn't sign in");
-          setLoading(false);
+          setUser(currentUser);
           setUserRole(null);
+          setLoading(false);
         }
       });
     return unsubscribe;
