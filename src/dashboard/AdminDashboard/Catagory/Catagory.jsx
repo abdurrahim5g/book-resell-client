@@ -21,6 +21,7 @@ import { useQuery } from "react-query";
 import Loading from "../../../components/Loading/Loading";
 import { DeleteOutline, EditNote } from "@mui/icons-material";
 import CatagoryModal from "./CatagoryModal";
+import DeleteDialog from "./DeleteDialog";
 // import { useForm } from "react-hook-form";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -50,6 +51,8 @@ const Catagory = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
 
+  const [deleteCatagory, setDeleteCatagory] = useState(null);
+  const handleDeleteDialog = (id) => setDeleteCatagory(id || null);
   // const { reset } = useForm();
 
   /**
@@ -60,6 +63,7 @@ const Catagory = () => {
     data: catagory = [],
     isError,
     isLoading,
+    refetch,
   } = useQuery("catagory", () => {
     return axios("http://localhost:5000/catagory").then((res) => res.data);
   });
@@ -76,6 +80,10 @@ const Catagory = () => {
   // imageBB_API
   const imagebbAPI = import.meta.env.VITE_ImageBB_API;
 
+  /**
+   *
+   * Add Catagory
+   */
   const handleAddCatagory = (data) => {
     // const { name, description, icon } = data;
     // const catagoryObj = { name, description, slug: slugify(name), icon };
@@ -109,9 +117,30 @@ const Catagory = () => {
               if (data?.acknowledged) {
                 toast.success(`${name} catagory added successfuly!`);
                 setOpen(false);
+                refetch();
               }
             })
             .catch(console.dir);
+        }
+      })
+      .catch(console.dir);
+  };
+
+  /**
+   *
+   * Delete Catagory
+   */
+  const handleCatagoryDelete = (id) => {
+    axios
+      .delete(`http://localhost:5000/catagory?id=${id}`)
+      .then((res) => {
+        const data = res.data;
+        if (data.deletedCount) {
+          refetch();
+          toast.success("Catagory delete successfully!");
+          setDeleteCatagory(null);
+        } else {
+          toast.error("Something is wrong please try again!");
         }
       })
       .catch(console.dir);
@@ -155,7 +184,10 @@ const Catagory = () => {
                   <StyledTableCell align="center">0X</StyledTableCell>
                   <StyledTableCell align="center">
                     <div className="flex gap-3 justify-center">
-                      <IconButton color="error">
+                      <IconButton
+                        color="error"
+                        onClick={() => handleDeleteDialog(single._id)}
+                      >
                         <DeleteOutline />
                       </IconButton>
                       <IconButton color="info">
@@ -174,6 +206,14 @@ const Catagory = () => {
           open={open}
           handleOpen={handleOpen}
           handleAddCatagory={handleAddCatagory}
+        />
+      )}
+
+      {deleteCatagory && (
+        <DeleteDialog
+          deleteCatagory={deleteCatagory}
+          handleDeleteDialog={handleDeleteDialog}
+          handleCatagoryDelete={handleCatagoryDelete}
         />
       )}
     </div>
