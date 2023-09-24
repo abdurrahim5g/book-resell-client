@@ -1,0 +1,19 @@
+.single-book {
+  overflow: hidden;
+
+  .book-text {
+    width: 100%;
+    background: linear-gradient(0deg, #fff 50%, rgb(232 232 232 / 30%));
+    padding-top: 50px;
+    opacity: 0;
+    transition: 0.35s;
+    bottom: -100px;
+  }
+
+  &:hover {
+    .book-text {
+      opacity: 1;
+      bottom: 0;
+    }
+  }
+}
