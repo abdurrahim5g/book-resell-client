@@ -22,6 +22,7 @@ import Loading from "../../../components/Loading/Loading";
 import { DeleteOutline, EditNote } from "@mui/icons-material";
 import CatagoryModal from "./CatagoryModal";
 import DeleteDialog from "./DeleteDialog";
+import { uploadImage } from "../../../utility/utility";
 // import { useForm } from "react-hook-form";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -49,11 +50,13 @@ const Catagory = () => {
   useEffect(() => setDBTitle("Catagory"), []);
 
   const [open, setOpen] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const handleOpen = () => setOpen(!open);
 
   const [deleteCatagory, setDeleteCatagory] = useState(null);
   const handleDeleteDialog = (id) => setDeleteCatagory(id || null);
-  // const { reset } = useForm();
+
+  const [editCatagory, setEditCatagory] = useState(null);
 
   /**
    *
@@ -128,6 +131,40 @@ const Catagory = () => {
 
   /**
    *
+   * handle Update catagory
+   */
+  const handleUpdateCatagory = (data) => {
+    setProcessing(true);
+    console.log(processing);
+    uploadImage(data.icon).then((res) => {
+      if (res.success) {
+        const icon = res.data.url;
+        const { description } = data;
+        const updateCatagoryDoc = { description, icon };
+        axios
+          .patch(
+            `http://localhost:5000/catagory?id=${editCatagory._id}`,
+            updateCatagoryDoc
+          )
+          .then((res) => {
+            if (res.data?.acknowledged) {
+              toast.success(`${data.name} catagory update successfuly!`);
+              console.log(processing);
+              setOpen(false);
+              setEditCatagory(null);
+              refetch();
+              setProcessing(false);
+            } else {
+              toast.error("Something is wrong! Please try again!");
+            }
+          })
+          .catch(console.dir);
+      }
+    });
+  };
+
+  /**
+   *
    * Delete Catagory
    */
   const handleCatagoryDelete = (id) => {
@@ -155,7 +192,12 @@ const Catagory = () => {
         <Typography component={"h2"} style={{ fontSize: 20, fontWeight: 500 }}>
           Add Catagory
         </Typography>
-        <Button variant="outlined" onClick={handleOpen}>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            handleOpen(), setEditCatagory(null);
+          }}
+        >
           Add Catagory
         </Button>
       </div>
@@ -190,7 +232,13 @@ const Catagory = () => {
                       >
                         <DeleteOutline />
                       </IconButton>
-                      <IconButton color="info">
+                      <IconButton
+                        color="info"
+                        onClick={() => {
+                          setEditCatagory(single);
+                          setOpen(true);
+                        }}
+                      >
                         <EditNote />
                       </IconButton>
                     </div>
@@ -206,6 +254,9 @@ const Catagory = () => {
           open={open}
           handleOpen={handleOpen}
           handleAddCatagory={handleAddCatagory}
+          editCatagory={editCatagory}
+          handleUpdateCatagory={handleUpdateCatagory}
+          processing={processing}
         />
       )}
 

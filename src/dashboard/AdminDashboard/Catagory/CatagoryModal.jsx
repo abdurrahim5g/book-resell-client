@@ -23,7 +23,14 @@ const style = {
   borderRadius: 2,
 };
 
-const CatagoryModal = ({ open, handleOpen, handleAddCatagory }) => {
+const CatagoryModal = ({
+  open,
+  handleOpen,
+  handleAddCatagory,
+  editCatagory,
+  handleUpdateCatagory,
+  processing,
+}) => {
   // ReactHookForm
   const {
     handleSubmit,
@@ -55,18 +62,27 @@ const CatagoryModal = ({ open, handleOpen, handleAddCatagory }) => {
             <div className=" mt-8">
               <form
                 className="grid gap-6"
-                onSubmit={handleSubmit(handleAddCatagory)}
+                onSubmit={handleSubmit(
+                  editCatagory?._id ? handleUpdateCatagory : handleAddCatagory
+                )}
                 encType="multipart/form-data"
               >
-                <TextField
-                  {...register("name", { required: "Title is require" })}
-                  label="Name"
-                  id="outlined-size-small"
-                  defaultValue=""
-                  size="medium"
-                  style={{ width: "100%" }}
-                  error={errors?.name ? true : false}
-                />
+                <div
+                  className={`${
+                    editCatagory?._id && "opacity-40 cursor-not-allowed"
+                  }`}
+                >
+                  <TextField
+                    {...register("name", { required: "Title is require" })}
+                    label="Name"
+                    id="outlined-size-small"
+                    value={editCatagory?.name}
+                    // disabled={editCatagory?._id ? true : false}
+                    size="medium"
+                    style={{ width: "100%" }}
+                    error={errors?._id ? true : false}
+                  />
+                </div>
 
                 <TextField
                   multiline
@@ -76,6 +92,7 @@ const CatagoryModal = ({ open, handleOpen, handleAddCatagory }) => {
                   })}
                   minRows={3}
                   error={errors?.description ? true : false}
+                  defaultValue={editCatagory?.description}
                 />
 
                 <TextField
@@ -87,8 +104,13 @@ const CatagoryModal = ({ open, handleOpen, handleAddCatagory }) => {
                   id="icon"
                 />
 
-                <Button variant="contained" size="large" type="submit">
-                  Add Catagory
+                <Button
+                  variant="contained"
+                  size="large"
+                  type="submit"
+                  disabled={processing}
+                >
+                  {editCatagory?._id ? "Update Catagory" : "Add Catagory"}
                 </Button>
               </form>
             </div>

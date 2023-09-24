@@ -6,4 +6,19 @@ const updateUserToDatabase = async (userInfo = {}) => {
     .then((res) => res);
 };
 
-export { updateUserToDatabase };
+/**
+ *
+ * uploadImage(image) => Image upload function
+ */
+const imagebbAPI = import.meta.env.VITE_ImageBB_API;
+const uploadImage = async (image) => {
+  let imageFile = image[0];
+  const formData = new FormData();
+  formData.append("image", imageFile);
+
+  return axios
+    .post(`https://api.imgbb.com/1/upload?key=${imagebbAPI}`, formData)
+    .then((res) => res.data);
+};
+
+export { updateUserToDatabase, uploadImage };
