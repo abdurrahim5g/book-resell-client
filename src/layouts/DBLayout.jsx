@@ -201,7 +201,9 @@ export default function DBLayout() {
               px: [1],
             }}
           >
-            <img src={logo} alt="Logo" />
+            <Link to="/">
+              <img src={logo} alt="Logo" />
+            </Link>
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
