@@ -1,17 +1,13 @@
 import Container from "@mui/material/Container";
 import AwesomeSlider from "react-awesome-slider";
-import AwesomeSliderStyles from "react-awesome-slider/src/styled/open-animation/open-animation.scss";
+import "react-awesome-slider/src/styled/open-animation/open-animation.scss";
 import "./CatagorySlider.css";
 
 const CatagorySlider = () => {
   return (
     <section className="hero-slider py-10 rounded-lg overflow-hidden">
       <Container maxWidth="lg">
-        <AwesomeSlider
-          animation="openAnimation"
-          cssModule={{ AwesomeSliderStyles }}
-          bullets={false}
-        >
+        <AwesomeSlider animation="openAnimation" cssModule={{}} bullets={false}>
           <div className="single-banner_image">
             <img
               className="rounded-lg"
