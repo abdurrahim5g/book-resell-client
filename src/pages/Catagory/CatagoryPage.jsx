@@ -18,11 +18,11 @@ const CatagoryPage = () => {
     <section className="catagoryPage py-16 lg:py-20">
       <div className="container">
         <div className="row">
-          <h2 className="font-semibold lg:text-4xl text-2xl text-center mb-10">
+          <h2 className="font-semibold lg:text-3xl text-2xl text-left mb-10">
             {slugToText(location.pathname)} Books
           </h2>
 
-          {/* {isLoading && <Loading />} */}
+          {books.data?.length === 0 && <p>No book available</p>}
           <div className="books-items grid grid-cols-5 lg:gap-6 gap-5">
             {books.data?.map((book) => (
               <SIngleBook book={book} key={book._id} />
