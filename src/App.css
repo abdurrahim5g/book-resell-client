@@ -16,4 +16,5 @@ nav.MuiList-root .active > div {
   width: 100%;
   margin: 0 auto;
   max-width: 1200px !important;
+  padding: 0 20px;
 }

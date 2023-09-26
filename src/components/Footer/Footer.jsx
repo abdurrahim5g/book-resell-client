@@ -3,16 +3,17 @@ import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/book-resell.svg";
 import SocialIcon from "./SocialIcon";
+import "./Footer.scss";
 
 const year = new Date().getFullYear();
 
 const Footer = () => {
   return (
-    <footer className="footer-area py-20">
+    <footer className="footer-area py-3">
       <Container maxWidth="lg" align="center">
         <Grid container alignItems={"center"}>
           <Grid item md={3} xs={12}>
-            <Link>
+            <Link to="/" className="footer-logo">
               <img src={logo} alt="Book Resell" />
             </Link>
           </Grid>
