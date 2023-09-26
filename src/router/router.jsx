@@ -12,12 +12,22 @@ import Dashboard from "../dashboard/Dashboard/Dashboard";
 import AdminRoute from "./AdminRoute";
 import Catagory from "../dashboard/AdminDashboard/Catagory/Catagory";
 import Products from "../dashboard/SellerDashboard/Products/Products";
+import CatagoryPage from "../pages/Catagory/CatagoryPage";
+import axios from "axios";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
-    children: [{ path: "/", element: <Home /> }],
+    children: [
+      { path: "/", element: <Home /> },
+      {
+        path: "/catagory/:slug",
+        element: <CatagoryPage />,
+        loader: ({ params }) =>
+          axios(`http://localhost:5000/product?catagory=${params.slug}`),
+      },
+    ],
   },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <Signup /> },
